@@ -1,7 +1,8 @@
 package contributors
 
+
 fun main() {
-    setDefaultFontSize(18f)
+    setDefaultFontSize(13f)
     ContributorsUI().apply {
         pack()
         setLocationRelativeTo(null)
