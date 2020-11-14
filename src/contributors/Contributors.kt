@@ -7,6 +7,7 @@ import kotlinx.coroutines.swing.Swing
 import tasks.*
 import java.awt.event.ActionListener
 import javax.swing.SwingUtilities
+import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 
 enum class Variant {
@@ -20,7 +21,7 @@ enum class Variant {
     CHANNELS          // Request7Channels
 }
 
-interface Contributors: CoroutineScope {
+interface Contributors : CoroutineScope {
 
     val job: Job
 
@@ -178,8 +179,7 @@ interface Contributors: CoroutineScope {
         val params = getParams()
         if (params.username.isEmpty() && params.password.isEmpty()) {
             removeStoredParams()
-        }
-        else {
+        } else {
             saveParams(params)
         }
     }
