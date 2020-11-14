@@ -74,9 +74,11 @@ interface Contributors : CoroutineScope {
                 }
             }
             SUSPEND -> { // Using coroutines
-                launch {
-                    val users = loadContributorsSuspend(service, req)
-                    updateResults(users, startTime)
+                launch(Dispatchers.Default) {
+                    val users = loadContributorsConcurrent(service, req)
+                    withContext(Dispatchers.Main) {
+                        updateResults(users, startTime)
+                    }
                 }.setUpCancellation()
             }
             CONCURRENT -> { // Performing requests concurrently

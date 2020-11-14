@@ -1,6 +1,5 @@
 package contributors
 
-
 fun main() {
     setDefaultFontSize(13f)
     ContributorsUI().apply {

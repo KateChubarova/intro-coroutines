@@ -1,6 +1,11 @@
 package kate_tests
 
 import contributors.User
+import contributors.log
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 
 class KTests {
@@ -19,12 +24,29 @@ class KTests {
 
         println("test map")
         val actual_map =
-            actual_group_by.map { (login, users_contributions) -> User(login, users_contributions.sumBy { it.contributions }) }
+            actual_group_by.map { (login, users_contributions) ->
+                User(
+                    login,
+                    users_contributions.sumBy { it.contributions })
+            }
         println(actual_map)
 
         println(actual_map.sortedByDescending { it.contributions })
-
     }
 
+    fun main() = runBlocking {
+        val deferred: Deferred<Int> = async {
+            loadData()
+        }
+        log("waiting...")
+        log(deferred.await().toString())
+        log("world Hello")
+    }
 
+    suspend fun loadData(): Int {
+        log("loading...")
+        delay(1000L)
+        log("loaded!")
+        return 42
+    }
 }
