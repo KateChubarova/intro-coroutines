@@ -3,6 +3,7 @@ package kate_tests
 import contributors.User
 import contributors.log
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 
 
 class KTests {
@@ -47,7 +48,7 @@ class KTests {
         return 42
     }
 
-    fun global_scope_test(){
+    fun global_scope_test() {
         println("hello")
         GlobalScope.launch {
             delay(1000L)
@@ -57,4 +58,27 @@ class KTests {
     }
 
     suspend fun kate_fun() = coroutineScope {}
+
+    fun channel_main() = runBlocking {
+        val channel = Channel<String>()
+        launch {
+            channel.send("A1")
+            channel.send("A2")
+            log("A done")
+        }
+        launch {
+            channel.send("B1")
+            log("B done")
+        }
+        launch {
+            repeat(3) {
+                val x = channel.receive()
+                log(x)
+            }
+        }
+    }
+
+    fun log(message: Any?) {
+        println("[${Thread.currentThread().name}] $message")
+    }
 }
