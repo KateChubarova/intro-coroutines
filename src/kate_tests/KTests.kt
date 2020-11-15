@@ -2,10 +2,7 @@ package kate_tests
 
 import contributors.User
 import contributors.log
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 
 class KTests {
@@ -49,4 +46,15 @@ class KTests {
         log("loaded!")
         return 42
     }
+
+    fun global_scope_test(){
+        println("hello")
+        GlobalScope.launch {
+            delay(1000L)
+            println("finished")
+        }
+        println("hello")
+    }
+
+    suspend fun kate_fun() = coroutineScope {}
 }
